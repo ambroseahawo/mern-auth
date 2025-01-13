@@ -1,7 +1,9 @@
 require("module-alias/register");
 
 import { config } from "@/config/app.config";
+import { HTTPSTATUS } from "@/config/http.config";
 import connectDatabase from "@/database";
+import { asyncHandler } from "@/middlewares/asyncHandler";
 import { errorHandler } from "@/middlewares/errorHandler";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -16,11 +18,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: config.APP_ORIGIN, credentials: true }));
 app.use(cookieParser());
 
-app.get("/", (req: Request, res: Response, next: NextFunction) => {
-  res.status(200).json({
-    message: "mern-auth",
-  });
-});
+app.get(
+  "/",
+  asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    res.status(HTTPSTATUS.OK).json({ message: "mern auth" });
+  }),
+);
 
 app.use(errorHandler);
 
