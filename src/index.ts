@@ -2,6 +2,7 @@ require("module-alias/register");
 
 import { config } from "@/config/app.config";
 import connectDatabase from "@/database";
+import { errorHandler } from "@/middlewares/errorHandler";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import "dotenv/config";
@@ -20,6 +21,9 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
     message: "mern-auth",
   });
 });
+
+app.use(errorHandler);
+
 app.listen(config.PORT, async () => {
   console.log(`Server listening on port ${config.PORT} in ${config.NODE_ENV}`);
   await connectDatabase();
