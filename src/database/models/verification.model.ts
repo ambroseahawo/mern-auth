@@ -13,7 +13,7 @@ export interface VerificationCodeDocument extends Document {
 const verificationCodeSchema = new Schema<VerificationCodeDocument>({
   userId: {
     type: Schema.Types.ObjectId,
-    ref: "user",
+    ref: "User",
     index: true,
     required: true,
   },

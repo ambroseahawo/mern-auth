@@ -11,7 +11,7 @@ export interface SessionDocument extends Document {
 const sessionSchema = new Schema<SessionDocument>({
   userId: {
     type: Schema.Types.ObjectId,
-    ref: "user",
+    ref: "User",
     index: true,
     required: true,
   },
