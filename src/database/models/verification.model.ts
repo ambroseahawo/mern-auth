@@ -37,9 +37,9 @@ const verificationCodeSchema = new Schema<VerificationCodeDocument>({
   },
 });
 
-const verificationModel = mongoose.model<VerificationCodeDocument>(
+const VerificationCodeModel = mongoose.model<VerificationCodeDocument>(
   "verificationCode",
   verificationCodeSchema,
   "verification_codes",
 );
-export default verificationModel;
+export default VerificationCodeModel;
