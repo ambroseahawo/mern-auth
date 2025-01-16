@@ -30,7 +30,7 @@ export const refreshTokenSignOptions: SignOptsAndSecret = {
   secret: config.JWT.REFRESH_SECRET,
 };
 
-export const signJwtToken = (payload: AccessTPayload | RefreshTPayload, options: SignOptsAndSecret) => {
+export const signJwtToken = (payload: AccessTPayload | RefreshTPayload, options?: SignOptsAndSecret) => {
   const { secret, ...opts } = options || accessTokenSignOptions;
   return jwt.sign(payload, secret, { ...defaults, ...opts });
 };
