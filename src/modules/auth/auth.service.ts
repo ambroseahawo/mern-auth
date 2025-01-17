@@ -1,6 +1,7 @@
 import { ErrorCode } from "@/common/enums/error-code.enum";
 import { VerificationEnum } from "@/common/enums/verification-code.enum";
-import { LoginDto, RegisterDto } from "@/common/interface/auth.interface";
+import { LoginDto, RegisterDto, ResetPasswordDto } from "@/common/interface/auth.interface";
+import { hashValue } from "@/common/utils/bcrypt";
 import {
   BadRequestException,
   HttpException,
@@ -188,5 +189,31 @@ export class AuthService {
     }
 
     return { url: resetLink, emailId: data.id };
+  }
+
+  public async resetPassword({ password, verificationCode }: ResetPasswordDto) {
+    const validCode = await VerificationCodeModel.findOne({
+      code: verificationCode,
+      type: VerificationEnum.PASSWORD_RESET,
+      expiresAt: { $gt: new Date() },
+    });
+
+    if (!validCode) {
+      throw new NotFoundException("Invalid or expired verification code");
+    }
+
+    const hashedPassword = await hashValue(password);
+    const updatedUser = await UserModel.findByIdAndUpdate(validCode.userId, {
+      password: hashedPassword,
+    });
+
+    if (!updatedUser) {
+      throw new BadRequestException("Failed to reset password!");
+    }
+
+    await validCode.deleteOne();
+    await SessionModel.deleteMany({ userId: updatedUser._id });
+
+    return { user: updatedUser };
   }
 }
