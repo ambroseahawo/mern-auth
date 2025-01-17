@@ -216,4 +216,8 @@ export class AuthService {
 
     return { user: updatedUser };
   }
+
+  public async logout(sessionId: string) {
+    return await SessionModel.findByIdAndDelete(sessionId);
+  }
 }
