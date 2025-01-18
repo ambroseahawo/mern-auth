@@ -7,6 +7,7 @@ import connectDatabase from "@/database";
 import { asyncHandler } from "@/middlewares/asyncHandler";
 import { errorHandler } from "@/middlewares/errorHandler";
 import authRoutes from "@/modules/auth/auth.routes";
+import mfaRoutes from "@/modules/mfa/mfa.routes";
 import sessionRoutes from "@/modules/session/session.routes";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -29,6 +30,7 @@ app.get(
 );
 
 app.use(`${BASE_PATH}/auth`, authRoutes);
+app.use(`${BASE_PATH}/mfa`, mfaRoutes);
 app.use(`${BASE_PATH}/session`, authenticateJWT, sessionRoutes);
 
 app.use(errorHandler);

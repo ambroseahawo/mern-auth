@@ -12,7 +12,7 @@ export class MfaController {
     this.mfaService = mfaService;
   }
 
-  public generateMFAsETUP = asyncHandler(async (req: Request, res: Response) => {
+  public generateMFASetup = asyncHandler(async (req: Request, res: Response) => {
     const { secret, qrImageUrl, message } = await this.mfaService.generateMFASetup(req);
 
     return res.status(HTTPSTATUS.OK).json({
