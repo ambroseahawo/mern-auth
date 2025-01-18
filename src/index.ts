@@ -1,11 +1,13 @@
 require("module-alias/register");
 
+import { authenticateJWT } from "@/common/strategies/jwt.strategy";
 import { config } from "@/config/app.config";
 import { HTTPSTATUS } from "@/config/http.config";
 import connectDatabase from "@/database";
 import { asyncHandler } from "@/middlewares/asyncHandler";
 import { errorHandler } from "@/middlewares/errorHandler";
 import authRoutes from "@/modules/auth/auth.routes";
+import sessionRoutes from "@/modules/session/session.routes";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import "dotenv/config";
@@ -27,6 +29,7 @@ app.get(
 );
 
 app.use(`${BASE_PATH}/auth`, authRoutes);
+app.use(`${BASE_PATH}/session`, authenticateJWT, sessionRoutes);
 
 app.use(errorHandler);
 
