@@ -67,4 +67,32 @@ export class MfaService {
       },
     };
   }
+
+  public async revokeMFA(req: Request) {
+    const user = req.user;
+
+    if (!user) {
+      throw new UnauthorizedException("User not authorized");
+    }
+
+    if (!user.userPreferences.enable2FA) {
+      return {
+        message: "MFA is not enabled",
+        userPreferences: {
+          enable2FA: user.userPreferences.enable2FA,
+        },
+      };
+    }
+
+    user.userPreferences.twoFactorSecret = undefined;
+    user.userPreferences.enable2FA = false;
+    await user.save();
+
+    return {
+      message: "MFA revoked successfully",
+      userPreferences: {
+        enable2FA: user.userPreferences.enable2FA,
+      },
+    };
+  }
 }
