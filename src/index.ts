@@ -5,6 +5,7 @@ import { HTTPSTATUS } from "@/config/http.config";
 import connectDatabase from "@/database";
 import { asyncHandler } from "@/middlewares/asyncHandler";
 import { errorHandler } from "@/middlewares/errorHandler";
+import authRoutes from "@/modules/auth/auth.routes";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import "dotenv/config";
@@ -24,6 +25,8 @@ app.get(
     res.status(HTTPSTATUS.OK).json({ message: "mern auth" });
   }),
 );
+
+app.use(`${BASE_PATH}/auth`, authRoutes);
 
 app.use(errorHandler);
 
