@@ -107,12 +107,12 @@ export class AuthService {
     if (!session) {
       throw new UnauthorizedException("Session does not exist");
     }
-    if (session.expiredAt.getTime() <= now) {
+    if (session.expiresAt.getTime() <= now) {
       throw new UnauthorizedException("Session expired");
     }
-    const sessionRequireRefresh = session.expiredAt.getTime() - now <= ONE_DAY_IN_MS;
+    const sessionRequireRefresh = session.expiresAt.getTime() - now <= ONE_DAY_IN_MS;
     if (sessionRequireRefresh) {
-      session.expiredAt = calculateExpirationDate(config.JWT.REFRESH_EXPIRES_IN);
+      session.expiresAt = calculateExpirationDate(config.JWT.REFRESH_EXPIRES_IN);
       await session.save();
     }
 

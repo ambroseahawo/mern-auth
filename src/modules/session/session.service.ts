@@ -6,14 +6,14 @@ export class SessionService {
     const sessions = await SessionModel.find(
       {
         userId,
-        expiredAt: { $gt: Date.now() },
+        expiresAt: { $gt: Date.now() },
       },
       {
         _id: 1,
         userId: 1,
         userAgent: 1,
         createdAt: 1,
-        expiredAt: 1,
+        expiresAt: 1,
       },
       { sort: { createdAt: 1 } },
     );

@@ -4,7 +4,7 @@ import mongoose, { Document, Schema } from "mongoose";
 export interface SessionDocument extends Document {
   userId: mongoose.Types.ObjectId;
   userAgent?: string;
-  expiredAt: Date;
+  expiresAt: Date;
   createdAt: Date;
 }
 
@@ -23,7 +23,7 @@ const sessionSchema = new Schema<SessionDocument>({
     type: Date,
     default: Date.now,
   },
-  expiredAt: {
+  expiresAt: {
     type: Date,
     required: true,
     default: thirtyDaysFromNow,
