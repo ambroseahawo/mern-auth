@@ -184,7 +184,7 @@ export class AuthService {
       ...passwordResetTemplate(resetLink),
     });
 
-    if (!data?.id) {
+    if (!data?.data?.id) {
       throw new InternalServerException(`${error?.name} ${error?.message}`);
     }
 
