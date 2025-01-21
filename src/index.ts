@@ -6,6 +6,7 @@ import { HTTPSTATUS } from "@/config/http.config";
 import connectDatabase from "@/database";
 import { asyncHandler } from "@/middlewares/asyncHandler";
 import { errorHandler } from "@/middlewares/errorHandler";
+import passport from "@/middlewares/passport";
 import authRoutes from "@/modules/auth/auth.routes";
 import mfaRoutes from "@/modules/mfa/mfa.routes";
 import sessionRoutes from "@/modules/session/session.routes";
@@ -20,7 +21,9 @@ const BASE_PATH = config.BASE_PATH;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: config.APP_ORIGIN, credentials: true }));
+
 app.use(cookieParser());
+app.use(passport.initialize());
 
 app.get(
   "/",
